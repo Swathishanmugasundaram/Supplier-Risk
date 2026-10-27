@@ -1,0 +1,35 @@
+{
+  "name": "supplier-risk-portal",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@sap/cds": "^10",
+    "@sap/xssec": "^4"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^3",
+    "@sap/cds-dk": "^10",
+    "cds-plugin-ui5": "^0.17.0",
+    "rimraf": "^5.0.5",
+    "mbt": "^1.2.49"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch-supplier-dashboard": "cds watch --open com.supplierrisk.supplierdashboard/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "undeploy": "cf undeploy supplier-risk-portal --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+  },
+  "private": true,
+  "cds": {
+    "requires": {
+      "[production]": {
+        "auth": "xsuaa"
+      },
+      "html5-repo": true
+    }
+  },
+  "workspaces": [
+    "app/*"
+  ]
+}

@@ -1,0 +1,5 @@
+ID,poId,supplier_ID,itemCategory,quantity,orderValue,lifecycleStatus
+aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa,PO-1001,11111111-1111-4111-8111-111111111111,Microchips,100,14500,OPEN
+bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb,PO-1002,22222222-2222-4222-8222-222222222222,Microchips,50,4200,DELIVERED
+cccccccc-cccc-4ccc-8ccc-cccccccccccc,PO-1003,33333333-3333-4333-8333-333333333333,Processors,75,8200,OPEN
+dddddddd-dddd-4ddd-8ddd-dddddddddddd,PO-1004,44444444-4444-4444-8444-444444444444,Circuit Boards,40,6100,OPEN
