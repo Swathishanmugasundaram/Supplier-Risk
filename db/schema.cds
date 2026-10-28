@@ -11,6 +11,7 @@ entity Suppliers : cuid, managed {
     complianceScore     : Integer;
     totalLiabilities    : Decimal(15,2);
     country             : String(50);
+    notes               : LargeString;
 }
 
 entity PurchaseOrders : cuid, managed {

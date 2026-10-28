@@ -4,17 +4,15 @@
     xmlns:viz="sap.viz.ui5.controls"
     xmlns:viz.data="sap.viz.ui5.data"
     xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:microchart="sap.suite.ui.microchart"
     displayBlock="true">
-    <!-- <Page id="page" title="{i18n>title}">
-   
-    </Page> -->
+
     <Page
         id="supplierDashboardPage"
         title="Supplier Exception Dashboard"
         class="sapUiResponsiveContentPadding">
 
         <content>
-
             <VBox width="100%" class="sapUiSmallMargin">
 
                 <!-- Dashboard heading -->
@@ -28,109 +26,115 @@
                     wrapping="true"
                     class="sapUiSmallMarginBottom"/>
 
-                <!-- MICRO INDICATORS -->
+                <!-- SIDE-BY-SIDE CONTAINER -->
                 <HBox
-                    wrap="Wrap"
+                    width="100%"
+                    alignItems="Start"
                     justifyContent="SpaceBetween"
                     class="sapUiSmallMarginBottom">
 
-                    <GenericTile
-                        header="Delivery Reliability"
-                        subheader="Demonstration value"
-                        frameType="OneByHalf"
-                        class="sapUiTinyMargin">
+                    <!-- LEFT: CHART WRAPPER VBOX (68% width) -->
+                    <VBox width="68%">
+                        <Panel
+                            id="riskSpendPanel"
+                            headerText="Risk Spend by Supplier"
+                            expandable="false"
+                            width="100%">
+                            <content>
+                                <viz:VizFrame
+                                    id="riskSpendChart"
+                                    width="100%"
+                                    height="400px"
+                                    vizType="column"
+                                    uiConfig="{applicationSet:'fiori'}">
 
-                        <TileContent>
-                            <NumericContent
-                                value="{dashboard>/deliveryReliability}"
-                                scale="%"
-                                valueColor="{dashboard>/deliveryColor}"
-                                indicator="None"/>
-                        </TileContent>
-                    </GenericTile>
+                                    <viz:dataset>
+                                        <viz.data:FlattenedDataset
+                                            data="{dashboard>/riskSpend}">
 
-                    <GenericTile
-                        header="Compliance"
-                        subheader="Demonstration value"
-                        frameType="OneByHalf"
-                        class="sapUiTinyMargin">
+                                            <viz.data:dimensions>
+                                                <viz.data:DimensionDefinition
+                                                    name="Supplier"
+                                                    value="{dashboard>supplierName}"/>
 
-                        <TileContent>
-                            <NumericContent
-                                value="{dashboard>/compliance}"
-                                scale="%"
-                                valueColor="{dashboard>/complianceColor}"
-                                indicator="None"/>
-                        </TileContent>
-                    </GenericTile>
+                                                <viz.data:DimensionDefinition
+                                                    name="Risk Status"
+                                                    value="{dashboard>riskStatus}"/>
+                                            </viz.data:dimensions>
+
+                                            <viz.data:measures>
+                                                <viz.data:MeasureDefinition
+                                                    name="Risk Spend"
+                                                    value="{dashboard>orderValue}"/>
+                                            </viz.data:measures>
+
+                                        </viz.data:FlattenedDataset>
+                                    </viz:dataset>
+
+                                    <viz:feeds>
+                                        <viz.feeds:FeedItem
+                                            uid="valueAxis"
+                                            type="Measure"
+                                            values="Risk Spend"/>
+
+                                        <viz.feeds:FeedItem
+                                            uid="categoryAxis"
+                                            type="Dimension"
+                                            values="Supplier"/>
+
+                                        <viz.feeds:FeedItem
+                                            uid="color"
+                                            type="Dimension"
+                                            values="Risk Status"/>
+                                    </viz:feeds>
+
+                                </viz:VizFrame>
+                            </content>
+                        </Panel>
+                    </VBox>
+
+                    <!-- RIGHT: MICRO INDICATORS (30% width) -->
+                    <VBox width="30%">
+                        <Title
+                            text="Performance Metrics"
+                            level="H5"
+                            class="sapUiSmallMarginBottom"/>
+
+                        <GenericTile
+                            header="Delivery Reliability"
+                            frameType="OneByHalf"
+                            class="sapUiSmallMarginBottom"
+                            width="100%">
+                            <TileContent>
+                                <!-- <NumericContent
+                                    value="{dashboard>/deliveryReliability}"
+                                    scale="%"
+                                    valueColor="{dashboard>/deliveryColor}"
+                                    indicator="None"/> -->
+                                    <microchart:RadialMicroChart
+                                    percentage="{dashboard>/deliveryReliability}"
+                                    valueColor="{dashboard>/deliveryColor}"/>
+                            </TileContent>
+                        </GenericTile>
+
+                        <GenericTile
+                            header="Compliance"
+                            frameType="OneByHalf"
+                            width="100%">
+                            <TileContent>
+                                <!-- <NumericContent
+                                    value="{dashboard>/compliance}"
+                                    scale="%"
+                                    valueColor="{dashboard>/complianceColor}"
+                                    indicator="None"/> -->
+                                    <microchart:RadialMicroChart
+                                    percentage="{dashboard>/compliance}"
+                                    valueColor="{dashboard>/complianceColor}"/>
+                            </TileContent>
+                        </GenericTile>
+                    </VBox>
 
                 </HBox>
-
-                <!-- RISK SPEND CHART -->
-                <Panel
-                    headerText="Risk Spend by Supplier"
-                    expandable="false"
-                    class="sapUiSmallMarginBottom">
-
-                    <content>
-
-                        <viz:VizFrame
-                            id="riskSpendChart"
-                            width="100%"
-                            height="350px"
-                            vizType="stacked_bar"
-                            uiConfig="{applicationSet:'fiori'}"
-                            vizProperties="{
-                                title: {
-                                    visible: true,
-                                    text: 'Purchase Order Value by Supplier'
-                                },
-                                legend: {
-                                    visible: true,
-                                    position: 'bottom'
-                                },
-                                plotArea: {
-                                    dataLabel: {
-                                        visible: true
-                                    }
-                                }
-                            }">
-
-                            <viz:dataset>
-                                <viz.data:FlattenedDataset
-                                    data="{dashboard>/riskSpend}">
-
-                                    <viz.data:dimensions>
-                                        <viz.data:DimensionDefinition
-                                            name="Supplier"
-                                            value="{dashboard>supplierName}"/>
-                                    </viz.data:dimensions>
-
-                                    <viz.data:measures>
-                                        <viz.data:MeasureDefinition
-                                            name="Purchase Order Value"
-                                            value="{dashboard>orderValue}"/>
-                                    </viz.data:measures>
-
-                                </viz.data:FlattenedDataset>
-                            </viz:dataset>
-
-                            <viz:feeds>
-                                <viz.feeds:FeedItem
-                                    uid="valueAxis"
-                                    type="Measure"
-                                    values="Purchase Order Value"/>
-
-                                <viz.feeds:FeedItem
-                                    uid="categoryAxis"
-                                    type="Dimension"
-                                    values="Supplier"/>
-                            </viz:feeds>
-
-                        </viz:VizFrame>
-
-                    </content>
-                </Panel>
 
                 <!-- PURCHASE ORDER TABLE -->
                 <Panel
@@ -138,7 +142,6 @@
                     expandable="false">
 
                     <content>
-
                         <Table
                             id="purchaseOrderTable"
                             items="{dashboard>/purchaseOrders}"
@@ -147,69 +150,40 @@
                             noDataText="No purchase orders found">
 
                             <columns>
-
-                                <Column>
-                                    <Text text="PO Number"/>
-                                </Column>
-
-                                <Column>
-                                    <Text text="Supplier"/>
-                                </Column>
-
-                                <Column
-                                    hAlign="End"
-                                    minScreenWidth="Tablet"
-                                    demandPopin="true">
+                                <Column><Text text="PO Number"/></Column>
+                                <Column><Text text="Supplier"/></Column>
+                                <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true">
                                     <Text text="Order Value"/>
                                 </Column>
-
-                                <Column>
-                                    <Text text="Status"/>
-                                </Column>
-
-                                <Column>
-                                    <Text text="Risk Level"/>
-                                </Column>
-
+                                <Column><Text text="Status"/></Column>
+                                <Column><Text text="Risk Level"/></Column>
                             </columns>
 
                             <items>
-                                <ColumnListItem>
+                                <ColumnListItem
+                                    type="Navigation"
+                                    press=".onOpenSupplier">
                                     <cells>
-
-                                        <Text text="{dashboard>poNumber}"/>
-
+                                        <Text text="{dashboard>poId}"/>
                                         <Text text="{dashboard>supplierName}"/>
-
                                         <ObjectNumber
                                             number="{dashboard>orderValue}"
                                             unit="USD"/>
-
                                         <ObjectStatus
                                             text="{dashboard>lifecycleStatus}"
                                             state="{dashboard>statusState}"/>
-
                                         <ObjectStatus
                                             text="{dashboard>riskStatus}"
                                             state="{dashboard>riskState}"/>
-
                                     </cells>
                                 </ColumnListItem>
                             </items>
 
                         </Table>
-
                     </content>
                 </Panel>
 
-                <MessageStrip
-                    text="Delivery Reliability and Compliance are demonstration values until actual metrics are provided by the backend."
-                    type="Information"
-                    showIcon="true"
-                    class="sapUiSmallMarginTop"/>
-
             </VBox>
-
         </content>
 
         <!-- Floating chat button -->
@@ -223,32 +197,20 @@
 
                 <content>
                     <VBox class="sapUiSmallMargin" height="100%">
-
                         <ScrollContainer
                             height="350px"
                             vertical="true"
                             horizontal="false">
-
                             <List
                                 items="{chat>/messages}"
                                 showSeparators="Inner">
-
                                 <CustomListItem>
                                     <VBox class="sapUiSmallMargin">
-
-                                        <Text
-                                            text="{chat>sender}"
-                                             level="H6"/>
-
-                                        <Text
-                                            text="{chat>messageText}"
-                                            wrapping="true"/>
-
+                                        <Title text="{chat>sender}" level="H6"/>
+                                        <Text text="{chat>messageText}" wrapping="true"/>
                                     </VBox>
                                 </CustomListItem>
-
                             </List>
-
                         </ScrollContainer>
 
                         <Toolbar>
@@ -257,21 +219,17 @@
                                 placeholder="Ask about supplier risk..."
                                 submit=".onSendChat"
                                 width="100%"/>
-
                             <Button
                                 icon="sap-icon://paper-plane"
                                 type="Emphasized"
                                 press=".onSendChat"
                                 tooltip="Send message"/>
                         </Toolbar>
-
                     </VBox>
                 </content>
 
                 <endButton>
-                    <Button
-                        text="Close"
-                        press=".onCloseChat"/>
+                    <Button text="Close" press=".onCloseChat"/>
                 </endButton>
 
             </Dialog>
@@ -280,7 +238,6 @@
         <footer>
             <OverflowToolbar>
                 <ToolbarSpacer/>
-
                 <Button
                     text="Ask AI"
                     icon="sap-icon://discussion-2"

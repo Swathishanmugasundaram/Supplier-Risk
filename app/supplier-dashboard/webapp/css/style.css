@@ -1,1 +1,145 @@
-/* Enter your custom styles here */
+
+/* RAG portal overall spacing */
+.ragContainer {
+    padding: 0.25rem 0;
+}
+
+/* Section headings */
+.ragSectionLabel {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #454545;
+    margin: 0.25rem 0 0.5rem 0;
+}
+
+/* PDF upload area */
+.ragUploadZone {
+    box-sizing: border-box;
+    min-height: 9.75rem;
+    padding: 1rem;
+    border: 1px dashed #b8b8ad;
+    border-radius: 0.65rem;
+    background: #f5f5ef;
+    text-align: center;
+}
+
+/* Keep the native uploader usable */
+.ragUploadZone .sapUiFup {
+    max-width: 100%;
+}
+
+/* Upload instructions */
+.ragUploadTitle {
+    margin-top: 0.65rem;
+    font-size: 0.9rem;
+    color: #4a4a4a;
+}
+
+.ragUploadHint {
+    margin-top: 0.15rem;
+    font-size: 0.75rem;
+    color: #85857d;
+}
+
+/* Uploaded file pill */
+.ragUploadedFile {
+    margin-top: 0.65rem;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid #b9a8ff;
+    border-radius: 0.45rem;
+    background: #f1edff;
+}
+
+.ragRemoveFileButton {
+    flex-shrink: 0;
+    margin-left: 0.4rem;
+}
+
+.ragUploadedFileText {
+    overflow-wrap: anywhere;
+}
+
+.ragFileIcon {
+    margin-right: 0.4rem;
+    color: #6152a5;
+}
+
+.ragUploadedFileText {
+    color: #51458f;
+    font-size: 0.8rem;
+}
+
+/* Space before chat heading */
+.ragChatSectionLabel {
+    margin-top: 0.9rem;
+}
+
+/* Chat panel */
+.ragChatPanel {
+    box-sizing: border-box;
+    min-height: 10.75rem;
+    padding: 0.85rem;
+    border: 1px solid #d8d8ce;
+    border-radius: 0.65rem;
+    background: #f5f5ef;
+}
+
+/* User question bubble */
+.ragUserMessageRow {
+    margin-bottom: 0.85rem;
+}
+
+.ragUserMessage {
+    display: inline-block;
+    width: auto;
+    max-width: 85%;
+    padding: 0.6rem 0.9rem;
+    border-radius: 1rem 1rem 0.25rem 1rem;
+    background: #d8e6fa;
+    color: #3569a8;
+    font-size: 0.8rem;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: normal;
+    line-height: 1.4;
+}
+
+/* AI answer */
+.ragAiAnswerContainer {
+    padding: 0 0.1rem;
+    margin-bottom: 0.85rem;
+}
+
+.ragAiAnswer {
+    color: #292929;
+    font-size: 0.85rem;
+    line-height: 1.45;
+}
+
+/* Input and Ask button */
+.ragQuestionInputRow {
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+}
+
+.ragQuestionInput {
+    flex: 1;
+    min-width: 0;
+}
+
+.ragQuestionInput .sapMInputBaseContentWrapper {
+    min-height: 2.45rem;
+    border-radius: 0.45rem;
+    background: #fff;
+}
+
+.ragAskButton {
+    min-width: 4.6rem;
+    min-height: 2.45rem;
+    border: 1px solid #cecec5;
+    border-radius: 0.55rem;
+    background: #f8f8f3;
+}
+
+
