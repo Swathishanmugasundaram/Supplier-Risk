@@ -1,0 +1,390 @@
+<mvc:View
+    controllerName="com.supplierrisk.supplierdashboard.controller.SupplierObjectPage"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:unified="sap.ui.unified"
+    displayBlock="true">
+
+    <Page
+        id="supplierObjectPage"
+        title="Supplier Details"
+        showNavButton="true"
+        navButtonPress=".onNavBack"
+        class="sapUiResponsiveContentPadding">
+
+        <content>
+            <VBox class="sapUiResponsiveContentPadding">
+
+                <!-- SEPARATE SUPPLIER HEADER -->
+                <Panel
+                    expandable="false"
+                    class="sapUiSmallMarginBottom">
+
+                    <content>
+                        <VBox class="sapUiMediumMargin">
+
+                            <HBox
+                                justifyContent="SpaceBetween"
+                                alignItems="Start"
+                                wrap="Wrap">
+
+                                <VBox>
+                                    <Text
+                                        text="Supplier / {supplier>/supplierId}"/>
+
+                                    <Title
+                                        text="{supplier>/supplierName}"
+                                        level="H1"/>
+                                </VBox>
+
+                                <ObjectStatus
+                                    text="{supplier>/riskLabel}"
+                                    state="{supplier>/riskState}"
+                                    icon="sap-icon://alert"/>
+                            </HBox>
+
+                            <HBox
+                                wrap="Wrap"
+                                alignItems="Start"
+                                class="sapUiSmallMarginTop">
+
+                                <VBox
+                                    width="150px"
+                                    class="sapUiSmallMarginEnd">
+                                    <Label text="Vendor ID"/>
+                                    <Title
+                                        text="{supplier>/supplierId}"
+                                        level="H4"/>
+                                </VBox>
+
+                                <VBox
+                                    width="140px"
+                                    class="sapUiSmallMarginEnd">
+                                    <Label text="Risk score"/>
+                                    <Title
+                                        text="{supplier>/riskScore} / 100"
+                                        level="H4"/>
+                                </VBox>
+
+                                <VBox
+                                    width="240px"
+                                    class="sapUiSmallMarginEnd">
+                                    <Label text="Open PO"/>
+                                    <Title
+                                        text="{supplier>/openPoSummary}"
+                                        level="H4"/>
+                                </VBox>
+
+                                <VBox width="250px">
+                                    <Label text="Item"/>
+                                    <Title
+                                        text="{supplier>/openPoItemSummary}"
+                                        level="H4"/>
+                                </VBox>
+
+                            </HBox>
+                        </VBox>
+                    </content>
+                </Panel>
+
+                <!-- ONE SHARED CONTAINER WITH TWO TABS -->
+                <IconTabBar
+                    id="supplierDetailTabs"
+                    expandable="false"
+                    selectedKey="standard"
+                    class="sapUiResponsiveContentPadding">
+
+                    <items>
+
+                        <!-- TAB A: STANDARD DETAILS -->
+                        <IconTabFilter
+                            key="standard"
+                            text="A. Standard details">
+
+                            <VBox class="sapUiMediumMargin">
+
+                                <Title
+                                    text="SUPPLIER PROFILE"
+                                    level="H4"
+                                    class="sapUiSmallMarginBottom"/>
+
+                                <List
+                                    showSeparators="Inner"
+                                    class="sapUiSmallMarginBottom">
+
+                                    <CustomListItem>
+                                        <HBox
+                                            justifyContent="SpaceBetween"
+                                            alignItems="Center"
+                                            wrap="Wrap">
+                                            <Label text="Supplier name"/>
+                                            <Text text="{supplier>/supplierName}"/>
+                                        </HBox>
+                                    </CustomListItem>
+
+                                    <CustomListItem>
+                                        <HBox
+                                            justifyContent="SpaceBetween"
+                                            alignItems="Center"
+                                            wrap="Wrap">
+                                            <Label text="Risk score"/>
+                                            <ObjectStatus
+                                                text="{supplier>/riskScore} — {supplier>/riskLabel}"
+                                                state="{supplier>/riskState}"/>
+                                        </HBox>
+                                    </CustomListItem>
+
+                                    <CustomListItem>
+                                        <HBox
+                                            justifyContent="SpaceBetween"
+                                            alignItems="Center"
+                                            wrap="Wrap">
+                                            <Label text="Total liabilities"/>
+                                            <Text text="{supplier>/liabilitiesText}"/>
+                                        </HBox>
+                                    </CustomListItem>
+
+                                    <CustomListItem>
+                                        <HBox
+                                            justifyContent="SpaceBetween"
+                                            alignItems="Center"
+                                            wrap="Wrap">
+                                            <Label text="PO status"/>
+                                            <ObjectStatus
+                                                text="{supplier>/openPoStatus}"
+                                                state="{supplier>/openPoStatusState}"/>
+                                        </HBox>
+                                    </CustomListItem>
+
+                                    <CustomListItem>
+                                        <HBox
+                                            justifyContent="SpaceBetween"
+                                            alignItems="Center"
+                                            wrap="Wrap">
+                                            <Label text="Suggested alternative"/>
+                                            <HBox
+                                                alignItems="Center"
+                                                wrap="Wrap">
+                                                <Text
+                                                    text="{supplier>/alternative/name}"
+                                                    class="sapUiTinyMarginEnd"/>
+                                                <ObjectStatus
+                                                    text="{supplier>/alternative/status}"
+                                                    state="Success"/>
+                                            </HBox>
+                                        </HBox>
+                                    </CustomListItem>
+
+                                </List>
+
+                                <Title
+                                    text="NOTES"
+                                    level="H4"
+                                    class="sapUiSmallMarginTop sapUiSmallMarginBottom"/>
+
+                                <TextArea
+                                    id="supplierNotes"
+                                    value="{supplier>/notes}"
+                                    rows="4"
+                                    width="100%"
+                                    growing="true"
+                                    growingMaxLines="8"
+                                    placeholder="Enter notes here..."/>
+
+                                <HBox
+                                    justifyContent="End"
+                                    class="sapUiSmallMarginTop">
+                                    <Button
+                                        text="Save Notes"
+                                        icon="sap-icon://save"
+                                        type="Emphasized"
+                                        press=".onSaveNotes"/>
+                                </HBox>
+
+                                <Title
+                                    text="PURCHASE ORDERS"
+                                    level="H4"
+                                    class="sapUiLargeMarginTop sapUiSmallMarginBottom"/>
+
+                                <Table
+                                    id="supplierPurchaseOrderTable"
+                                    items="{supplier>/purchaseOrders}"
+                                    noDataText="No purchase orders found for this supplier">
+
+                                    <columns>
+                                        <Column>
+                                            <Text text="PO Number"/>
+                                        </Column>
+                                        <Column>
+                                            <Text text="Item Category"/>
+                                        </Column>
+                                        <Column hAlign="End">
+                                            <Text text="Quantity"/>
+                                        </Column>
+                                        <Column hAlign="End">
+                                            <Text text="Order Value"/>
+                                        </Column>
+                                        <Column>
+                                            <Text text="Status"/>
+                                        </Column>
+                                    </columns>
+
+                                    <items>
+                                        <ColumnListItem>
+                                            <cells>
+                                                <Text text="{supplier>poId}"/>
+                                                <Text text="{supplier>itemCategory}"/>
+                                                <Text text="{supplier>quantity}"/>
+                                                <ObjectNumber
+                                                    number="{supplier>orderValue}"
+                                                    unit="USD"/>
+                                                <ObjectStatus
+                                                    text="{supplier>lifecycleStatus}"
+                                                    state="{supplier>statusState}"/>
+                                            </cells>
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
+
+                            </VBox>
+                        </IconTabFilter>
+
+                      
+<!-- TAB B: RAG DOCUMENT PORTAL -->
+<IconTabFilter
+    key="rag"
+    text="B. RAG document portal">
+
+    <VBox class="ragContainer">
+
+        <!-- PDF INGESTION ZONE -->
+        <Label
+            text="PDF INGESTION ZONE"
+            class="ragSectionLabel"/>
+
+        <VBox
+            alignItems="Center"
+            justifyContent="Center"
+            class="ragUploadZone">
+
+            <unified:FileUploader
+                id="contractUploader"
+                width="100%"
+                placeholder="Choose a PDF contract"
+                fileType="pdf"
+                mimeType="application/pdf"
+                sameFilenameAllowed="true"
+                buttonText="Choose PDF"
+                change=".onContractFileChange"
+                buttonOnly="false"/>
+
+            <Text
+                text="Drag &amp; drop PDF contract here"
+                class="ragUploadTitle"/>
+
+            <!-- <Text
+                text="e.g. Beta_SLA_Contract.pdf"
+                class="ragUploadHint"/> -->
+
+         
+<HBox
+    alignItems="Center"
+    class="ragUploadedFile"
+    visible="{supplier>/contractUploaded}">
+
+    <Text
+        text="□"
+        class="ragFileIcon"/>
+
+    <Text
+  
+        text="{supplier>/contractFileName}"   
+        class="ragUploadedFileText"/>
+
+    <Button
+        icon="sap-icon://decline"
+        type="Transparent"
+        tooltip="Remove uploaded PDF"
+        press=".onRemoveContractFile"
+        class="ragRemoveFileButton"/>
+
+</HBox>
+
+
+        </VBox>
+
+        <!-- DOCUMENT Q&A CHATBOX -->
+        <Label
+            text="DOCUMENT Q&amp;A CHATBOX"
+            class="ragSectionLabel ragChatSectionLabel"/>
+
+        <VBox class="ragChatPanel">
+
+            <!-- USER QUESTION -->
+           
+<HBox
+    width="100%"
+    justifyContent="End"
+    class="ragUserMessageRow">
+
+    <Text
+        text="{supplier>/ragQuestion}"
+        wrapping="true"
+        class="ragUserMessage"/>    
+
+</HBox>
+
+            <!-- AI ANSWER -->
+            <VBox class="ragAiAnswerContainer">
+
+                <FormattedText
+                    htmlText="{supplier>/ragAnswer}"
+                    class="ragAiAnswer"/>
+
+            </VBox>
+
+            <!-- ASK QUESTION -->
+            <HBox
+                alignItems="Center"
+                class="ragQuestionInputRow">
+
+                <Input
+                    id="contractQuestion"
+                    width="100%"
+                    placeholder="Ask a question about this document..."
+                    submit=".onAskContractQuestion"
+                    class="ragQuestionInput"/>
+
+                <Button
+                    text="Ask ↗"
+                    press=".onAskContractQuestion"
+                    class="ragAskButton"/>
+
+            </HBox>
+
+        </VBox>
+
+    </VBox>
+
+</IconTabFilter>
+
+
+                    </items>
+                </IconTabBar>
+
+            </VBox>
+        </content>
+
+        <footer>
+            <OverflowToolbar>
+                <ToolbarSpacer/>
+                <Button
+                    text="Back to Dashboard"
+                    icon="sap-icon://nav-back"
+                    press=".onNavBack"/>
+            </OverflowToolbar>
+        </footer>
+
+    </Page>
+</mvc:View>

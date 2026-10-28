@@ -62,7 +62,10 @@
       "minUI5Version": "1.153.0",
       "libs": {
         "sap.m": {},
-        "sap.ui.core": {}
+        "sap.ui.core": {},
+        "sap.ui.layout": {},
+        "sap.ui.unified": {},
+        "sap.viz": {}
       }
     },
     "contentDensities": {
@@ -112,12 +115,25 @@
           "target": [
             "TargetSupplierRiskPortal"
           ]
+        },
+        {
+            "name": "SupplierObjectPage",
+            "pattern": "supplier/{key}",
+            "target":[ 
+              "TargetSupplierObjectPage"
+          ]
         }
+
       ],
       "targets": {
         "TargetSupplierRiskPortal": {
           "id": "SupplierRiskPortal",
           "name": "SupplierRiskPortal"
+        },
+         "TargetSupplierObjectPage": {
+            "type": "View",
+            "id": "SupplierObjectPage",
+            "name": "SupplierObjectPage"
         }
       }
     },
